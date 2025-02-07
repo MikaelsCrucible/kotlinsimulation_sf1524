@@ -6,7 +6,7 @@ class TickEvent(
     private val simulator: Simulator,
 ) : Event {
     override fun invoke() {
-        printStream.print("Tick at ${simulator.currentTime()}\n")
+        printStream.print("Tick at ${simulator.currentTime()}\n") // same, println fails
         simulator.schedule(TickEvent(printStream, simulator), 1.0)
     }
 }

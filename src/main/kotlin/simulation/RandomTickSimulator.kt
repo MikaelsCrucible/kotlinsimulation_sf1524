@@ -4,30 +4,30 @@ import java.io.PrintStream
 import java.util.Random
 
 class RandomTickSimulator(
-    private val printStream: PrintStream = System.out,
+    private val printStream: PrintStream,
     private val stoppingTime: Double,
     private val interval: Pair<Double, Double>,
-    private val random: Random = Random(),
+    private val random: Random,
 ) : Simulator() {
     override fun shouldTerminate(): Boolean = currentTime() >= stoppingTime
 
     inner class TickEvent : Event {
         override fun invoke() {
-            printStream.println("Tick at ${currentTime()}")
-            val nextInterval = interval.first + (interval.second - interval.first) * random.nextDouble()
-            if (currentTime() + nextInterval < stoppingTime) {
-                schedule(TickEvent(), nextInterval)
+            printStream.print("Tick at ${currentTime()}\n")
+            val newInterval = interval.first + (interval.second - interval.first) * random.nextDouble()
+            if (currentTime() + newInterval < stoppingTime) {
+                schedule(TickEvent(), newInterval)
             }
         }
     }
 
-    fun start(initialTime: Double) {
-        schedule(TickEvent(), initialTime)
+    fun start(initTime: Double) {
+        schedule(TickEvent(), initTime)
         execute()
     }
 }
 
 fun main() {
-    val simulator = RandomTickSimulator(stoppingTime = 10.0, interval = 1.0 to 2.0)
-    simulator.start(initialTime = 0.5)
+    val simulator = RandomTickSimulator(System.out, 10.0, 1.0 to 2.0, java.util.Random())
+    simulator.start(0.5)
 }

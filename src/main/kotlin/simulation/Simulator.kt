@@ -19,9 +19,9 @@ abstract class Simulator :
 
     fun execute() {
         while (eventQueue.isNotEmpty() && !shouldTerminate()) {
-            val nextEvent = eventQueue.poll()
-            currentTime = nextEvent.time
-            nextEvent.event.invoke()
+            val nxtEvent = eventQueue.poll()
+            currentTime = nxtEvent.time
+            nxtEvent.event.invoke()
         }
     }
 
