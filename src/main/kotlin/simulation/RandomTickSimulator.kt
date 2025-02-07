@@ -7,7 +7,7 @@ class RandomTickSimulator(
     private val printStream: PrintStream,
     private val stoppingTime: Double,
     private val interval: Pair<Double, Double>,
-    private val random: Random,
+    private val random: Random = Random(),
 ) : Simulator() {
     override fun shouldTerminate(): Boolean = currentTime() >= stoppingTime
 
@@ -28,6 +28,6 @@ class RandomTickSimulator(
 }
 
 fun main() {
-    val simulator = RandomTickSimulator(System.out, 10.0, 1.0 to 2.0, java.util.Random())
+    val simulator = RandomTickSimulator(System.out, 10.0, 1.0 to 2.0)
     simulator.start(0.5)
 }
